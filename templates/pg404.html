@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <title>Erro 404 | Gestão Escolar</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap');
+
+        :root {
+            --fundo: #0c0c0f;
+            --vermelho: #c62835;
+            --dourado: #c9a65b;
+            --texto: #f3eee5;
+            --cinza: #a5a1a1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+
+            font-family: 'Noto Sans JP', sans-serif;
+            color: var(--texto);
+            text-align: center;
+
+            background:
+                radial-gradient(
+                    circle at 50% 35%,
+                    rgba(198, 40, 53, 0.16),
+                    transparent 45%
+                ),
+                var(--fundo);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            padding: 50px 30px;
+
+            background: rgba(23, 23, 28, 0.9);
+            border: 1px solid rgba(201, 166, 91, 0.25);
+            border-top: 3px solid var(--vermelho);
+            border-radius: 16px;
+
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+        }
+
+        .simbolo {
+            font-size: 42px;
+            color: var(--dourado);
+            margin-bottom: 15px;
+        }
+
+        .erro {
+            font-size: clamp(100px, 20vw, 170px);
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--vermelho);
+            letter-spacing: -10px;
+
+            text-shadow: 0 0 50px rgba(198, 40, 53, 0.2);
+        }
+
+        h2 {
+            margin-top: 10px;
+            font-size: clamp(20px, 4vw, 28px);
+        }
+
+        .japones {
+            margin-top: 12px;
+            font-size: 13px;
+            letter-spacing: 5px;
+            color: var(--dourado);
+        }
+
+        .descricao {
+            margin: 25px auto;
+            max-width: 430px;
+            color: var(--cinza);
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        .botao {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 15px 30px;
+
+            background: #821b25;
+            border: 1px solid var(--vermelho);
+            border-radius: 8px;
+
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+
+            transition: 0.3s;
+        }
+
+        .botao:hover {
+            background: var(--vermelho);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(198, 40, 53, 0.3);
+        }
+
+        .rodape {
+            margin-top: 35px;
+            color: #77737a;
+            font-size: 11px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 35px 18px;
+            }
+
+            .erro {
+                letter-spacing: -5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <div class="simbolo">迷</div>
+
+        <h1 class="erro">404</h1>
+
+        <h2>Página não encontrada</h2>
+
+        <p class="japones">ページが見つかりません</p>
+
+        <p class="descricao">
+           HAHA, se fodeu parceiro, essa página não existe, então volta pro sistema escolar e para de ficar tentando acessar páginas que não existem.
+        </p>
+
+        <a href="/" class="botao">
+            ← Voltar ao Sistema Escolar
+        </a>
+
+        <footer class="rodape">
+            SISTEMA DE GESTÃO ESCOLAR
+            <p>学び ・ 知識 ・ 未来</p>
+        </footer>
+
+    </main>
+
+</body>
+</html>

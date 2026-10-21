@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="stylesheet" href="/form-cadastro.css">
+    <link rel="icon" type="image/png" href="/favicon.png?v=2">
+    <title>Cadastro de Docente | Sistema Escolar</title>
+</head>
+
+<body>
+    <main class="container">
+        <a class="back-link" href="/">← Voltar ao painel</a>
+
+        <header class="header">
+            <div class="japanese-symbol">学</div>
+
+            <h1>Sistema de Gestão Escolar</h1>
+            <p>Cadastro de docentes</p>
+
+            <span class="japanese-text">学び ・ 知識 ・ 未来</span>
+        </header>
+
+        <section class="card">
+            <h2>Novo docente</h2>
+
+            <p class="description">
+                Registre um professor ou profissional docente na instituição.
+            </p>
+
+            <form id="formDocente">
+                <div class="form-group">
+                    <label for="registro">Registro *</label>
+
+                    <input
+                        type="text"
+                        id="registro"
+                        name="registro"
+                        maxlength="100"
+                        placeholder="Ex.: DOC2026005"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="nome">Nome completo *</label>
+
+                    <input
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        maxlength="150"
+                        placeholder="Digite o nome completo"
+                        autocomplete="name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="especialidade">Especialidade *</label>
+
+                    <input
+                        type="text"
+                        id="especialidade"
+                        name="especialidade"
+                        maxlength="150"
+                        placeholder="Ex.: Matemática"
+                        required
+                    >
+                </div>
+
+                <div class="buttons">
+                    <button type="submit" class="btn-submit">
+                        Cadastrar docente
+                    </button>
+
+                    <button type="reset" class="btn-reset">
+                        Limpar
+                    </button>
+                </div>
+
+                <div id="mensagem" class="status" role="status"
+                    aria-live="polite"></div>
+            </form>
+        </section>
+
+        <footer class="footer">
+            Sistema de Gestão Escolar · 日本の美学
+        </footer>
+    </main>
+
+    <script>
+        const form = document.getElementById('formDocente')
+        const mensagem = document.getElementById('mensagem')
+        const botao = form.querySelector('.btn-submit')
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault()
+
+            botao.disabled = true
+            botao.textContent = 'Salvando...'
+            mensagem.className = 'status'
+            mensagem.textContent = ''
+
+            try {
+                const dados = Object.fromEntries(
+                    new FormData(form).entries()
+                )
+
+                const resposta = await fetch('/cadastrar/docente', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dados)
+                })
+
+                const resultado = await resposta.json()
+
+                if (!resposta.ok) {
+                    throw new Error(
+                        resultado.message || 'Não foi possível cadastrar o docente.'
+                    )
+                }
+
+                mensagem.className = 'status success'
+                mensagem.textContent = resultado.message
+
+                form.reset()
+
+            } catch (erro) {
+                mensagem.className = 'status error'
+                mensagem.textContent =
+                    erro.message || 'Erro de comunicação com o servidor.'
+            } finally {
+                botao.disabled = false
+                botao.textContent = 'Cadastrar docente'
+            }
+        })
+    </script>
+</body>
+</html>

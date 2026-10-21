@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="stylesheet" href="/form-cadastro.css">
+    <link rel="icon" type="image/png" href="/favicon.png?v=2">
+    <title>Upminaa vai ser minha esposa</title>
+</head>
+
+<body>
+    <main class="container">
+        <a class="back-link" href="/">← Voltar</a>
+
+        <header class="header">
+            <div class="japanese-symbol">学</div>
+
+            <h1>Eu te amo Upminaa</h1>
+            <p>Cadastro de cursos</p>
+
+            <span class="japanese-text">学び ・ 知識 ・ 未来</span>
+        </header>
+
+        <section class="card">
+            <h2>Novo curso</h2>
+
+            <p class="description">
+                Cadastre um curso para disponibilizá-lo no sistema escolar.
+            </p>
+
+            <form id="formCurso">
+                <div class="form-group">
+                    <label for="nome">Nome do curso *</label>
+
+                    <input
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        maxlength="150"
+                        placeholder="Ex.: Hentai"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao">Descrição</label>
+
+                    <textarea
+                        id="descricao"
+                        name="descricao"
+                        rows="4"
+                        placeholder="Descreva o conteúdo do curso"
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="carga_horaria">Carga horária (horas) *</label>
+
+                    <input
+                        type="number"
+                        id="carga_horaria"
+                        name="carga_horaria"
+                        min="1"
+                        step="1"
+                        placeholder="Ex.: 80"
+                        required
+                    >
+                </div>
+
+                <div class="buttons">
+                    <button type="submit" class="btn-submit">
+                        Cadastrar curso
+                    </button>
+
+                    <button type="reset" class="btn-reset">
+                        Limpar
+                    </button>
+                </div>
+
+                <div id="mensagem" class="status" role="status"
+                    aria-live="polite"></div>
+            </form>
+        </section>
+
+        <footer class="footer">
+            Sistema de Gestão Escolar · 日本の美学
+        </footer>
+    </main>
+
+    <script>
+        const form = document.getElementById('formCurso')
+        const mensagem = document.getElementById('mensagem')
+        const botao = form.querySelector('.btn-submit')
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault()
+
+            botao.disabled = true
+            botao.textContent = 'Salvando...'
+            mensagem.className = 'status'
+            mensagem.textContent = ''
+
+            try {
+                const dados = Object.fromEntries(
+                    new FormData(form).entries()
+                )
+
+                const resposta = await fetch('/cadastrar/curso', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dados)
+                })
+
+                const resultado = await resposta.json()
+
+                if (!resposta.ok) {
+                    throw new Error(
+                        resultado.message || 'Não foi possível cadastrar o curso.'
+                    )
+                }
+
+                mensagem.className = 'status success'
+                mensagem.textContent = resultado.message
+
+                form.reset()
+
+            } catch (erro) {
+                mensagem.className = 'status error'
+                mensagem.textContent =
+                    erro.message || 'Erro de comunicação com o servidor.'
+            } finally {
+                botao.disabled = false
+                botao.textContent = 'Cadastrar curso'
+            }
+        })
+    </script>
+</body>
+</html>

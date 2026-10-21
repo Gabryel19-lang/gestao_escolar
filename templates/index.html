@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   <link rel="icon" type="image/png" href="/favicon.png?v=2">
+    <title>Upminaa vai ser minha esposa</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        .item {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Sistema de Gestão Escolar</h1>
+
+    <nav class="cadastro-nav" aria-label="Cadastros">
+    <a href="/form/aluno">+ Cadastrar aluno</a>
+    <a href="/form/curso">+ Cadastrar curso</a>
+    <a href="/form/docente">+ Cadastrar docente</a>
+</nav>
+
+    <section>
+        <h2>Alunos</h2>
+        <div id="alunos">Carregando...</div>
+    </section>
+
+    <section>
+        <h2>Cursos</h2>
+        <div id="cursos">Carregando...</div>
+    </section>
+
+    <section>
+        <h2>Docentes</h2>
+        <div id="docentes">Carregando...</div>
+    </section>
+
+    <script>
+        async function carregarDados() {
+
+            try {
+
+                const alunosResponse = await fetch('/listar/alunos')
+                const alunosData = await alunosResponse.json()
+
+                document.getElementById('alunos').innerHTML =
+                    alunosData.alunos.map(aluno => `
+                        <div class="item">
+                            <strong>${aluno.nome}</strong><br>
+                            Matrícula: ${aluno.matricula}<br>
+                            Nascimento: ${aluno.data_nascimento}
+                        </div>
+                    `).join('')
+
+
+                const cursosResponse = await fetch('/listar/cursos')
+                const cursosData = await cursosResponse.json()
+
+                document.getElementById('cursos').innerHTML =
+                    cursosData.cursos.map(curso => `
+                        <div class="item">
+                            <strong>${curso.nome}</strong><br>
+                            ${curso.descricao}<br>
+                            Carga horária: ${curso.carga_horaria} horas
+                        </div>
+                    `).join('')
+
+
+                const docentesResponse = await fetch('/listar/docentes')
+                const docentesData = await docentesResponse.json()
+
+                document.getElementById('docentes').innerHTML =
+                    docentesData.docentes.map(docente => `
+                        <div class="item">
+                            <strong>${docente.nome}</strong><br>
+                            Registro: ${docente.registro}<br>
+                            Especialidade: ${docente.especialidade}
+                        </div>
+                    `).join('')
+
+            } catch (erro) {
+
+                console.error(erro)
+
+                document.getElementById('alunos').innerHTML =
+                    'Erro ao carregar alunos.'
+
+                document.getElementById('cursos').innerHTML =
+                    'Erro ao carregar cursos.'
+
+                document.getElementById('docentes').innerHTML =
+                    'Erro ao carregar docentes.'
+            }
+        }
+
+        carregarDados()
+    </script>
+<script src="script.js"></script>
+</body>
+</html>
